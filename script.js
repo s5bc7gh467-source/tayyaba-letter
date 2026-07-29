@@ -4,7 +4,7 @@ const hint = document.getElementById('hint');
 
 const gallery = document.getElementById('gallery');
 
-// ✅ match your current filenames exactly (case-sensitive)
+// ✅ EXACT filenames in assets/photos (case-sensitive)
 const photos = [
   "1..PNG",
   "2..PNG",
@@ -13,19 +13,22 @@ const photos = [
 
 function loadPhotos() {
   gallery.innerHTML = "";
+
   for (const file of photos) {
     const img = document.createElement('img');
     img.src = `assets/photos/\${file}`;
     img.alt = file;
     img.loading = "lazy";
-    img.onerror = () => console.log("Missing:", img.src);
+    img.onerror = () => {
+      console.log("Image not found:", img.src);
+    };
     gallery.appendChild(img);
   }
 }
 
 envelope.addEventListener('click', () => {
   envelope.classList.toggle('open');
-  hint.style.display = "none";
-  after.classList.add('show');
+  if (hint) hint.style.display = "none";
+  if (after) after.classList.add('show');
   loadPhotos();
 });
